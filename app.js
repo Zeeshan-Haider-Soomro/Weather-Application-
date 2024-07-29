@@ -4,6 +4,7 @@ let search = document.getElementById("search")
 let btn = document.getElementById("btn")
 let API_KEY = "a8ee85694fe02536b6d283e694fd2b01"
 let weather_info = document.querySelector(".weather_info")
+let body = document.querySelector("body")
 
 function fetchData(){
 
@@ -12,7 +13,7 @@ function fetchData(){
     }
     else{
         setTimeout(()=>{
-            let url = `https://api.openweathermap.org/data/2.5/weather?q=${search.value}&appid=${API_KEY}` 
+            let url = `https://api.openweathermap.org/data/2.5/weather?q=${search.value}&units=metric&appid=${API_KEY}` 
             fetch(url)
             .then((res) => {
                 return res.json()
@@ -35,11 +36,41 @@ function fetchData(){
 }
 
 function showData(data){
+    const {country} = data.sys
+    const {temp} = data.main
+    let updatedTemp = Math.round(temp)
+    const {main, description,  icon, id} = data.weather[0]
+    let urlImg;
+
+    if(id >= 200 && id <= 232 ){
+        urlImg = "assets/images/thunderstorm.png"
+        body.classList = "thunderstorm"
+    }
+    else if(id >= 300 && id <= 321 ){
+        urlImg = "assets/images/drizzle.png"
+    }
+    else if(id >= 500 && id <= 531 ){
+        urlImg = "assets/images/rainy-day.png"
+    }
+    else if(id >= 600 && id <= 622 ){
+        urlImg = "assets/images/snowy.png"
+    }
+    else if(id >= 701 && id <= 781 ){
+        urlImg = "assets/images/atmosphere.png"
+    }
+    else if(id >= 801 && id <= 804 ){
+        urlImg = "assets/images/cloudy.png"
+    }
+    else{
+        urlImg = "assets/images/sun (1).png"
+    }
+
+    weather_info.classList = "padding"
     weather_info.innerHTML = `
-    <img src="assets/images/sun.png" alt="">
-    <h1>50 <span class"degree"><sup>o</sup></span>C</h1>
-    <p>Karachi,PK</p>
-    <p>Cloud</p>
+    <p>${data.name},${country}</p>
+    <img src="${urlImg}" alt="">
+    <h1 class="number">${updatedTemp} <sup class="degree">o</sup>C</h1>
+    <p>${main}, (${description})</p>
     
     `
     console.log(data);
@@ -52,3 +83,5 @@ search.addEventListener('keyup',(e)=>{
 })
 
 btn.addEventListener('click', fetchData)
+
+
