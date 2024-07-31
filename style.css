@@ -22,8 +22,6 @@ body{
     border: 2px solid rgba(255,255,255, .2);
     position: relative;
     width: 350px;
-    /* height: 444px; */
-    /* background-color: blue; */
     padding: 30px;
     border-radius: 16px;
 }
@@ -34,7 +32,6 @@ body{
     display: flex;
     align-items: center;
     left: 15px;
-    /* background-color: rgb(4, 6, 68); */
 }
 .search-box i{
     position: absolute;
