@@ -23,6 +23,7 @@ function fetchData(){
                 // console.log(data);
             })
             .catch((err) => {
+                weather_info.innerHTML = `<h1> CITY NOT FOUND !! </h1>`
                 console.log(err);
             })
             error.innerText = ""
@@ -84,4 +85,32 @@ search.addEventListener('keyup',(e)=>{
 
 btn.addEventListener('click', fetchData)
 
+let currentLocation = document.getElementById("currentLocation")
 
+function getCurrentLocation(){
+    navigator.geolocation.getCurrentPosition((position)=>{
+
+        let lon = position.coords.longitude
+        let lat = position.coords.latitude
+        let currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
+        fetch(currentUrl)
+        .then((res)=>{
+            return res.json()
+        })
+        .then((data)=>{
+            showData(data)
+        })
+        .catch((err) => {
+            weather_info.innerHTML = `<h1> CITY NOT FOUND !! </h1>`
+            console.log(err);
+        })
+        
+    },(error)=>{
+        const {message} = error
+        error.innerText = `${message}`
+        // console.log(error);
+        
+    })
+}
+
+currentLocation.addEventListener("click", getCurrentLocation)
