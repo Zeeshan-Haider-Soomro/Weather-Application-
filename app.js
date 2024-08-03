@@ -1,4 +1,6 @@
-
+let date = new Date()
+let yearChanger = document.querySelector("#yearChanger")
+yearChanger.innerText = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`
 
 let search = document.getElementById("search")
 let btn = document.getElementById("btn")
